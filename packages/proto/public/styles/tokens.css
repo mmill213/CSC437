@@ -1,0 +1,13 @@
+
+:root {
+    --color-accent: #91bf87;
+    --color-accent-inverted: #6e4078;
+    --color-link: var(--color-accent);
+    --color-link-inverted: var(--color-accent-inverted);
+    --color-text: #282525;
+    --color-text-inverted: #d7dada;
+    --color-background-header: var(--color-accent);
+    --color-background-page: #488938;
+    --color-header: #282525;
+    --color-header-inverted: #d7dada;
+}

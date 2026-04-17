@@ -1,0 +1,25 @@
+@import "./tokens.css";
+
+a {
+    color:var(--color-accent);
+}
+
+h1 {
+    background-color: var(--color-background-page);
+    text-align: center;
+    color:var(--color-header);
+}
+
+body {
+    background-color:var(--color-background-page);
+    color:#282525;
+    font-family: "Open Sans", Arial, sans-serif;
+}
+
+svg.icon {
+  display: inline;
+  height: 2em;
+  width: 2em;
+  vertical-align: top;
+  fill: currentColor;
+}
