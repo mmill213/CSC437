@@ -11,9 +11,52 @@ h1 {
 }
 
 body {
+    display: grid;
+
+    --page-grid: 8;
+
+
+    grid-template-columns: repeat(var(--page-grid), minmax(100px, 1fr));
+
+
+    >header {
+        display:flexbox;
+        
+
+
+        grid-column: 1 / -1;
+    }
+
+    >p {
+        text-align: center;
+        justify-items: center;
+        grid-column: 1 / -1;
+    }
+
+    >ul {
+        display:contents;
+        >li {
+            justify-self: center;
+            grid-column: auto/span 2;
+        }
+    }
+
+
     background-color:var(--color-background-page);
     color:#282525;
     font-family: "Open Sans", Arial, sans-serif;
+}
+
+
+@media screen and (max-width: 50rem) {
+    body {
+        --page-grid: 4;
+    }
+}
+@media screen and (max-width: 30rem) {
+    body {
+        --page-grid: 2;
+    }
 }
 
 svg.icon {
