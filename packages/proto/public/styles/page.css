@@ -5,7 +5,6 @@ a {
 }
 
 h1 {
-    background-color: var(--color-background-page);
     text-align: center;
     color:var(--color-header);
 }
@@ -16,15 +15,16 @@ body {
     --page-grid: 8;
 
 
-    grid-template-columns: repeat(var(--page-grid), minmax(100px, 1fr));
+    grid-template-columns: repeat(var(--page-grid), 1fr);
 
 
     >header {
-        display:flexbox;
-        
-
-
+        background-color: var(--color-accent-inverted);
         grid-column: 1 / -1;
+        
+        display:flex;
+        justify-content: center;
+        flex:auto;
     }
 
     >p {

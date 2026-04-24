@@ -1,7 +1,7 @@
 
 :root {
     --color-accent: #91bf87;
-    --color-accent-inverted: #6e4078;
+    --color-accent-inverted: #84568e;
     --color-link: var(--color-accent);
     --color-link-inverted: var(--color-accent-inverted);
     --color-text: #282525;
