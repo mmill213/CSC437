@@ -7,6 +7,7 @@ a {
 h1 {
     text-align: center;
     color:var(--color-header);
+    font-size: inherit;
 }
 
 body {
@@ -19,11 +20,13 @@ body {
 
 
     >header {
+        font-size: var(--font-size-large);
         background-color: var(--color-accent-inverted);
         grid-column: 1 / -1;
-        
+
         display:flex;
         justify-content: center;
+        align-items: center;
         flex:auto;
     }
 

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <symbol id="up_arrow_water_drop" viewBox="0 0 100 125" xml:space="preserve">
+    <symbol id="up_arrow_water_drop" viewBox="0 -10 100 125" xml:space="preserve">
         <g><g><path style="" d="    M74.75,65c0,13.669-11.081,24.75-24.75,24.75S25.25,78.669,25.25,65s0-13.669,24.75-54.75C74.75,51.331,74.75,51.331,74.75,65z" /><g><line style="" x1="50" y1="72.013" x2="50" y2="44.969" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"/><polyline style="" points="     57.243,54.533 50,41.987 42.757,54.533    " fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"/></g></g></g>
     </symbol>
 

@@ -1,7 +1,9 @@
 
 :root {
+    --font-size-large: 2.5rem;
+    --water-color: #314375;
     --color-accent: #91bf87;
-    --color-accent-inverted: #84568e;
+    --color-accent-inverted: #87e330;
     --color-link: var(--color-accent);
     --color-link-inverted: var(--color-accent-inverted);
     --color-text: #282525;
