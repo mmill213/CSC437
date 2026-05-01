@@ -1,6 +1,7 @@
 
 :root {
     --font-size-large: 2.5rem;
+    --font-size-small: 1.0rem;
     --water-color: #314375;
     --color-accent: #91bf87;
     --color-accent-inverted: #87e330;
@@ -12,4 +13,15 @@
     --color-background-page: #488938;
     --color-header: #282525;
     --color-header-inverted: #d7dada;
+    --color-icon-plant: black;
+}
+
+body.dark-mode {
+  --color-background-page: #1d2c19;
+  --color-text: rgb(240, 240, 223);
+  --color-background-card: black;
+  --color-accent: var(--color-accent-inverted);
+  --color-text-control: rgb(51 51 51);
+  --color-text-control-inverted: var(--color-background-page);
+  --color-icon-plant: white;
 }

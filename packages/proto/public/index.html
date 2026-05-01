@@ -11,6 +11,19 @@
 
             <link rel="stylesheet" href="/styles/page.css" />
             <link rel="stylesheet" href="/styles/reset.css" />
+            <script type="importmap">
+                {"imports": {
+                    "@unbndl/html": "https://unpkg.com/@unbndl/html"
+                }
+                }
+            </script>
+            <script type = "module"> 
+                import {ZoneItem} from "./js/navigation_options.js";
+                import {define} from "@unbndl/html";
+                define ({
+                    "zone-item": ZoneItem
+                });
+            </script>
     </head>
 
     <body>
@@ -19,47 +32,77 @@
             <h1> 
                 Automatic Plant Watering System 
             </h1>
-            <svg class="icon" style="color:var(--water-color)">
+            <svg class="icon water_drop">
                     <use href="sprite.svg#up_arrow_water_drop"/>
             </svg>
+
+
+            <script>
+                function relayEvent(event, customType, detail){
+                    const relay = event.target;
+                    const customEvent = new CustomEvent(customType, {
+                        bubbles: true,
+                        composed: true,
+                        detail
+                    });
+
+                    relay.dispatchEvent(customEvent);
+                    event.stopPropagation();
+                }
+
+                const element = document.body;
+                element.addEventListener("dark-mode", handleChange);
+
+                function handleChange(event) {
+                    const change = event.detail.checked;
+                    element.classList.toggle("dark-mode", change);
+                }
+            </script>
+
+            <label onchange="relayEvent(event, 'dark-mode',
+                {checked: event.target.checked})">
+                
+                <input type="checkbox" id="darkMode" autocomplete="off"/>
+                <strong>Dark</strong>-mode   
+            </label>
+            
         </header>
 
 
+
+
         <ul style="list-style-type: none;">
-            <li>
-                <svg class="icon">
-                    <use href="sprite.svg#potted_plant_generic"/>
-                </svg>
-
-                <a href="./zones/zone1/zone1.html" >Zone 1</a> 
-            </li>
-            
-            <li>
-                <svg class="icon">
-                    <use href="sprite.svg#potted_plant_succulent"/>
-                </svg>
-
-                <a href="./zones/zone2/zone2.html" >Zone 2</a> 
-            </li>
-
-            <li>
-                <svg class="icon">
-                    <use href="sprite.svg#potted_plant_generic2"/>
-                </svg>
-                
-                <a href="./zones/zone3/zone3.html" >Zone 3</a> 
-            </li>
-
-            <li>
-                <svg class="icon">
-                    <use href="sprite.svg#potted_plant_cactus"/>
-                </svg>
-                
-                <a href="./zones/zone4/zone4.html" >Zone 4</a> 
-            </li>
+            <zone-item icon-type="potted_plant_generic" zone-path="./zones/zone1/zone1.html">
+                Zone 1
+            </zone-item>
+            <zone-item icon-type="potted_plant_succulent" zone-path="./zones/zone2/zone2.html">
+                Zone 2
+            </zone-item>
+            <zone-item icon-type="potted_plant_generic2" zone-path="./zones/zone3/zone3.html">
+                Zone 3
+            </zone-item>
+            <zone-item icon-type="potted_plant_cactus" zone-path="./zones/zone4/zone4.html">
+                Zone 4
+            </zone-item>
         </ul>
+
         <p>
              <a href="./alerts.html">Alerts</a>
+
+            <div class="dropdown">Component Details
+                <div class="dropdown-content">
+                    <dl>
+                        <dt> <b> Moisture Sensor </b> </dt>
+                        <dd> Capacitive Soil Moisture Sensor v1.2 </dd>
+
+                        <dt> <b> Temperature Sensor </b> </dt>
+                        <dd> DS18B20 digital temperature sensor </dd>
+
+                        <dt> <b> Watering Pump </b> </dt>
+                        <dd> Submersible 3V DC Water Pump, Horizontal Type </dd>
+                    </dl>
+                </div>
+            </div>
         </p>
     </body>
 </html>
