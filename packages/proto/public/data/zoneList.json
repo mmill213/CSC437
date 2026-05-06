@@ -1,0 +1,8 @@
+{
+  "zoneList": [
+    { "name": "Zone 1", "iconName": "potted_plant_generic",   "zonePath": "./zones/zone1/zone1.html"},
+    { "name": "Zone 2", "iconName": "potted_plant_succulent", "zonePath": "./zones/zone2/zone2.html"},
+    { "name": "Zone 3", "iconName": "potted_plant_generic2",  "zonePath": "./zones/zone3/zone3.html"},
+    { "name": "Zone 4", "iconName": "potted_plant_cactus",    "zonePath": "./zones/zone4/zone4.html"}
+  ]
+}

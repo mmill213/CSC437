@@ -52,6 +52,16 @@ body {
     }
 
 
+    .dropFlex {
+        display:flex;
+        align-items: center;
+        justify-self: center;
+        flex:auto;
+        flex-wrap: wrap;
+        grid-column: 1 / -1;
+        width: fit-content;
+    }
+
     background-color:var(--color-background-page);
     color:#282525;
     font-family: "Open Sans", Arial, sans-serif;
@@ -80,9 +90,8 @@ svg.icon {
   }
 }
 
-
-
 .dropdown {
+  flex: 0 0 100%;
   position: relative;
   text-align: center;
   justify-items: center;

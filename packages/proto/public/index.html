@@ -3,11 +3,8 @@
     <head>
         <meta charset="utf-8" />
 
-            <link rel="preconnect"
-                href="https://fonts.googleapis.com" />
-
-            <link rel="preconnect" href="https://fonts.gstatic.com"
-                crossorigin />
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
             <link rel="stylesheet" href="/styles/page.css" />
             <link rel="stylesheet" href="/styles/reset.css" />
@@ -19,9 +16,11 @@
             </script>
             <script type = "module"> 
                 import {ZoneItem} from "./js/navigation_options.js";
+                import {ZoneElement} from "./js/elementsGet.js";
                 import {define} from "@unbndl/html";
                 define ({
-                    "zone-item": ZoneItem
+                    "zone-item": ZoneItem,
+                    "zone-list": ZoneElement
                 });
             </script>
     </head>
@@ -71,7 +70,7 @@
 
 
 
-        <ul style="list-style-type: none;">
+        <!-- <ul style="list-style-type: none;">
             <zone-item icon-type="potted_plant_generic" zone-path="./zones/zone1/zone1.html">
                 Zone 1
             </zone-item>
@@ -84,23 +83,27 @@
             <zone-item icon-type="potted_plant_cactus" zone-path="./zones/zone4/zone4.html">
                 Zone 4
             </zone-item>
-        </ul>
+        </ul> -->
+        
+        <zone-list src="./data/zoneList.json"></zone-list>
 
         <p>
              <a href="./alerts.html">Alerts</a>
 
-            <div class="dropdown">Component Details
-                <div class="dropdown-content">
-                    <dl>
-                        <dt> <b> Moisture Sensor </b> </dt>
-                        <dd> Capacitive Soil Moisture Sensor v1.2 </dd>
+            <div class="dropFlex">
+                <div class="dropdown">Component Details
+                    <div class="dropdown-content">
+                        <dl>
+                            <dt> <b> Moisture Sensor </b> </dt>
+                            <dd> Capacitive Soil Moisture Sensor v1.2 </dd>
 
-                        <dt> <b> Temperature Sensor </b> </dt>
-                        <dd> DS18B20 digital temperature sensor </dd>
+                            <dt> <b> Temperature Sensor </b> </dt>
+                            <dd> DS18B20 digital temperature sensor </dd>
 
-                        <dt> <b> Watering Pump </b> </dt>
-                        <dd> Submersible 3V DC Water Pump, Horizontal Type </dd>
-                    </dl>
+                            <dt> <b> Watering Pump </b> </dt>
+                            <dd> Submersible 3V DC Water Pump, Horizontal Type </dd>
+                        </dl>
+                    </div>
                 </div>
             </div>
         </p>
