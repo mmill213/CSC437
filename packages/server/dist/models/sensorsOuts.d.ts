@@ -1,6 +1,6 @@
 export interface Zones {
+    zoneId?: string;
     name: string;
-    wateringLog: number[];
     lastWatered: number;
     moisture: number;
     temperature: number;
