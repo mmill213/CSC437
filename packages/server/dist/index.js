@@ -3,6 +3,8 @@ import zoneService from "./services/sensorsOuts-svc.js";
 import express from "express";
 import { connect } from "./services/mongo.js";
 import router from "./routes/zones.js";
+import auth from "./routes/auth.js";
+import { authenticateUser } from "./routes/auth.js";
 connect("ZoneDB");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,6 +12,8 @@ const staticDir = process.env.STATIC || "public";
 app.use(express.static(staticDir));
 app.use(express.json());
 app.use("/api/zones", router);
+app.use("/api/zones", router);
+app.use("/api/zones", authenticateUser, router);
 // app.get("/api/zones/:name", (req: Request, res: Response) => {
 //   const { name } = req.params as{name:string};
 //   const data = zoneService.get(name);
@@ -30,6 +34,7 @@ app.get("/api/sensorsOuts/:id", (req, res) => {
     })
         .catch((err) => res.status(500).send(err));
 });
+app.use("/auth", auth);
 app.get("/api/sensorsOuts", (req, res) => {
     zoneService.index()
         .then((list) => {

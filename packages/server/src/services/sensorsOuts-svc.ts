@@ -33,16 +33,40 @@ function get(zoneId: string): Promise<Zones | undefined> {
     });
 }
 
-export default { index, get };
+
+function create(json: Zones): Promise<Zones> {
+  const t = new ZoneModel(json);
+  return t.save();
+}
+
+function update(
+  id: String,
+  zones: Zones
+): Promise<Zones | undefined> {
+  return ZoneModel.findOneAndUpdate(
+    { id }, 
+    zones,
+    { new: true})
+  .then((updated) => {
+    if (!updated) throw `${id} not updated`;
+    else return updated as Zones;
+  });
+}
+
+function remove(userid: String): Promise<void> {
+  return ZoneModel.findOneAndDelete({ userid }).then(
+    (deleted) => {
+      if (!deleted) throw `${userid} not deleted`;
+    }
+  );
+}
 
 
-// const zones: {[key: string]: Zones} = {
-//     "Zone 1": {
-//         name: "Zone 1",
-//         lastWatered: 27,
-//         moisture: 37,
-//         temperature: 47,
-//         shouldWater: "Yes"
-//     }
-    
-// };
+export default { index, get, create, update, remove };
+
+
+
+
+
+//Destination=Zones
+//DestinationModel=ZoneModel

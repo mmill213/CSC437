@@ -19,13 +19,25 @@ function get(zoneId) {
         throw `${zoneId} Not Found`;
     });
 }
-export default { index, get };
-// const zones: {[key: string]: Zones} = {
-//     "Zone 1": {
-//         name: "Zone 1",
-//         lastWatered: 27,
-//         moisture: 37,
-//         temperature: 47,
-//         shouldWater: "Yes"
-//     }
-// };
+function create(json) {
+    const t = new ZoneModel(json);
+    return t.save();
+}
+function update(id, zones) {
+    return ZoneModel.findOneAndUpdate({ id }, zones, { new: true })
+        .then((updated) => {
+        if (!updated)
+            throw `${id} not updated`;
+        else
+            return updated;
+    });
+}
+function remove(userid) {
+    return ZoneModel.findOneAndDelete({ userid }).then((deleted) => {
+        if (!deleted)
+            throw `${userid} not deleted`;
+    });
+}
+export default { index, get, create, update, remove };
+//Destination=Zones
+//DestinationModel=ZoneModel

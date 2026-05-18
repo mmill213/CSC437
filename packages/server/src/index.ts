@@ -9,6 +9,10 @@ import { connect } from "./services/mongo.ts";
 
 import router from "./routes/zones.ts";
 
+import auth from "./routes/auth.ts";
+
+import { authenticateUser } from "./routes/auth.ts";
+
 connect("ZoneDB");
 
 const app = express();
@@ -18,6 +22,9 @@ const staticDir = process.env.STATIC || "public";
 app.use(express.static(staticDir));
 app.use(express.json());
 app.use("/api/zones", router);
+
+app.use("/api/zones", router);
+app.use("/api/zones", authenticateUser, router);
 
 
 // app.get("/api/zones/:name", (req: Request, res: Response) => {
@@ -44,6 +51,7 @@ app.get("/api/sensorsOuts/:id", (req: Request, res: Response) => {
     .catch((err) => res.status(500).send(err));
 });
 
+app.use("/auth", auth);
 
 app.get("/api/sensorsOuts", (req: Request, res: Response) => {
   zoneService.index()
