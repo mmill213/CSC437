@@ -5,4 +5,5 @@ export interface Zones {
     moisture: number;
     temperature: number;
     shouldWater: string;
+    reservoir?: string;
 }
