@@ -23,29 +23,31 @@ const staticDir = process.env.STATIC || "public";
 // Device POST route, no auth required, uses API key instead
 app.post("/api/device/data", (req: Request, res: Response) => {
     const apiKey = req.headers["x-api-key"];
+    
     if (apiKey !== process.env.API_KEY) {
         res.status(401).send("Unauthorized");
         return;
     }
-    
+
     const { zoneId, name, moisture, temperature, lastWatered, shouldWater } = req.body;
-    
+
     zoneService.create({
         zoneId,
-        name: name || zoneId || "unknown",
+        name: name || zoneId || "zone",
         moisture,
         temperature,
         lastWatered,
         shouldWater
-    })
+    } as Zones)
     .then((zone: Zones) => res.status(201).json(zone))
-    .catch((err) => res.status(500).send(err));
+    .catch((err: unknown) => res.status(500).send(err));
 });
 
 
 app.use(express.static(staticDir));
 app.use(express.json());
-app.use("/api/zones", authenticateUser, router);
+app.use("/api/zones", router)
+//app.use("/api/zones", authenticateUser, router);
 
 
 // app.get("/api/zones/:name", (req: Request, res: Response) => {

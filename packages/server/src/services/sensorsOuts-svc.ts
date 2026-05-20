@@ -44,7 +44,7 @@ function update(
   zones: Zones
 ): Promise<Zones | undefined> {
   return ZoneModel.findOneAndUpdate(
-    { id }, 
+    { zoneId: id }, 
     zones,
     { new: true})
   .then((updated) => {
