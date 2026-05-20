@@ -24,7 +24,7 @@ function create(json) {
     return t.save();
 }
 function update(id, zones) {
-    return ZoneModel.findOneAndUpdate({ id }, zones, { new: true })
+    return ZoneModel.findOneAndUpdate({ zoneId: id }, zones, { new: true })
         .then((updated) => {
         if (!updated)
             throw `${id} not updated`;
@@ -33,7 +33,8 @@ function update(id, zones) {
     });
 }
 function remove(userid) {
-    return ZoneModel.findOneAndDelete({ userid }).then((deleted) => {
+    return ZoneModel.findOneAndDelete({ zoneId: userid })
+        .then((deleted) => {
         if (!deleted)
             throw `${userid} not deleted`;
     });

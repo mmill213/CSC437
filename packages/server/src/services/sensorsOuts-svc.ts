@@ -39,26 +39,23 @@ function create(json: Zones): Promise<Zones> {
   return t.save();
 }
 
-function update(
-  id: String,
-  zones: Zones
-): Promise<Zones | undefined> {
+function update(id: string, zones: Zones): Promise<Zones | undefined> {
   return ZoneModel.findOneAndUpdate(
-    { zoneId: id }, 
+    { zoneId: id } as any,
     zones,
-    { new: true})
+    { new: true }
+  )
   .then((updated) => {
     if (!updated) throw `${id} not updated`;
-    else return updated as Zones;
+    else return updated as unknown as Zones;
   });
 }
 
-function remove(userid: String): Promise<void> {
-  return ZoneModel.findOneAndDelete({ userid }).then(
-    (deleted) => {
+function remove(userid: string): Promise<void> {
+  return ZoneModel.findOneAndDelete({ zoneId: userid } as any)
+    .then((deleted) => {
       if (!deleted) throw `${userid} not deleted`;
-    }
-  );
+    });
 }
 
 
