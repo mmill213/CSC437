@@ -73,9 +73,29 @@ body {
         --page-grid: 4;
     }
 }
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Make images and SVGs scale */
+img, svg {
+    max-width: 100%;
+}
+
+/* Stack nav items on mobile */
 @media screen and (max-width: 30rem) {
     body {
         --page-grid: 2;
+    }
+
+    zone-item {
+        grid-column: 1 / -1;  /* full width on small screens */
     }
 }
 
