@@ -71,6 +71,10 @@ body {
 @media screen and (max-width: 50rem) {
     body {
         --page-grid: 4;
+
+        >header>h1 {
+            font-size: var(--font-size-medium);
+        }
     }
 }
 
@@ -92,11 +96,16 @@ img, svg {
 @media screen and (max-width: 30rem) {
     body {
         --page-grid: 2;
+
+        >header>h1 {
+            font-size: var(--font-size-med-small);
+        }
     }
 
     zone-item {
-        grid-column: 1 / -1;  /* full width on small screens */
+        grid-column: 1 / -1;
     }
+
 }
 
 svg.icon {

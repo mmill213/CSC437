@@ -1,6 +1,8 @@
 
 :root {
     --font-size-large: 2.5rem;
+    --font-size-medium: 2.0rem;
+    --font-size-med-small:1.5rem;
     --font-size-small: 1.0rem;
     --water-color: #314375;
     --color-accent: #91bf87;
