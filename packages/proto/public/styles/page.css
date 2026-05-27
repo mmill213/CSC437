@@ -10,6 +10,37 @@ h1 {
     font-size: inherit;
 }
 
+auth-provider {
+    display: contents; 
+
+    >main>p {
+        text-align: center;
+        justify-items: center;
+        grid-column: 1 / -1;
+    }
+}
+
+plant-header {
+    grid-column: 1 / -1;
+}
+
+main.page {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(var(--page-grid), 1fr);
+}
+
+zone-list {
+    display: contents;
+}
+
+zone-item {
+    justify-self: center;
+    grid-column: auto / span 2;
+}
+
+
+
 body {
     display: grid;
     --page-grid: 8;
@@ -37,11 +68,6 @@ body {
         }
     }
 
-    >p {
-        text-align: center;
-        justify-items: center;
-        grid-column: 1 / -1;
-    }
 
     >ul {
         display:contents;

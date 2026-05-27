@@ -18,13 +18,16 @@ const staticDir = process.env.STATIC || "public";
 app.use(express.static(staticDir));
 app.use(express.json());
 
-// Device endpoint for ESP8266 — API key auth
+
+//senior project stuff --start
+//Recieves formatted data from ESP and verifies it has the key
 app.post("/api/device/data", (req: Request, res: Response) => {
     const apiKey = req.headers["x-api-key"];
     if (apiKey !== process.env.API_KEY) {
         res.status(401).send("Unauthorized");
         return;
     }
+
     zoneService.create({
         zoneId:      req.body.zoneId,
         name:        req.body.name || req.body.zoneId || "zone",
@@ -34,13 +37,18 @@ app.post("/api/device/data", (req: Request, res: Response) => {
         shouldWater: req.body.shouldWater,
         reservoir:   req.body.reservoir
     } as Zones)
+
     .then((zone: Zones) => res.status(201).json(zone))
     .catch((err: unknown) => res.status(500).send(err));
 });
+//senior project stuff --end
+
 
 // Public zone routes
-app.use("/api/zones", router);
+//app.use("/api/zones", router);
+app.use("/api/zones", authenticateUser, router);
 app.use("/auth", auth);
+
 
 app.get("/hello", (req: Request, res: Response) => {
     res.send("Hello, World");

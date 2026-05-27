@@ -2,110 +2,68 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="/styles/page.css" />
+        <link rel="stylesheet" href="/styles/reset.css" />
+        <script type="importmap">
+            {"imports": {
+                "@unbndl/html": "https://unpkg.com/@unbndl/html",
+                "@unbndl/auth": "https://unpkg.com/@unbndl/auth",
+                "@unbndl/view": "https://unpkg.com/@unbndl/view"
+            }}
+        </script>
+        <script type="module">
+            import { define } from "@unbndl/html";
+            import { Auth } from "@unbndl/auth";
+            import { ZoneItem } from "./js/navigation_options.js";
+            import { ZoneElement } from "./js/elementsGet.js";
+            import { HeaderElement } from "/js/header.js";
 
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-            <link rel="stylesheet" href="/styles/page.css" />
-            <link rel="stylesheet" href="/styles/reset.css" />
-            <script type="importmap">
-                {"imports": {
-                    "@unbndl/html": "https://unpkg.com/@unbndl/html"
-                }
-                }
-            </script>
-            <script type = "module"> 
-                import {ZoneItem} from "./js/navigation_options.js";
-                import {ZoneElement} from "./js/elementsGet.js";
-                import {define} from "@unbndl/html";
-                define ({
-                    "zone-item": ZoneItem,
-                    "zone-list": ZoneElement
-                });
-            </script>
+            define({
+                "zone-item": ZoneItem,
+                "zone-list": ZoneElement,
+                "plant-header": HeaderElement,
+                "auth-provider": Auth.Provider
+            });
+        </script>
     </head>
 
     <body>
-        <header>
+        <auth-provider>
+            <plant-header></plant-header>
 
-            <h1> 
-                Automatic Plant Watering System 
-            </h1>
-            <svg class="icon water_drop">
-                    <use href="sprite.svg#up_arrow_water_drop"/>
-            </svg>
+            <main class="page">
+                <zone-list></zone-list>
 
+                <p>
+                    <a href="./alerts.html">Alerts</a>
+                </p>
 
-            <script>
-                function relayEvent(event, customType, detail){
-                    const relay = event.target;
-                    const customEvent = new CustomEvent(customType, {
-                        bubbles: true,
-                        composed: true,
-                        detail
-                    });
+                <div class="dropFlex">
+                    <div class="dropdown">Component Details
+                        <div class="dropdown-content">
+                            <dl>
+                                <dt><b>Moisture Sensor</b></dt>
+                                <dd>Capacitive Soil Moisture Sensor v1.2</dd>
 
-                    relay.dispatchEvent(customEvent);
-                    event.stopPropagation();
-                }
+                                <dt><b>Temperature Sensor</b></dt>
+                                <dd>DS18B20 digital temperature sensor</dd>
 
-                const element = document.body;
-                element.addEventListener("dark-mode", handleChange);
-
-                function handleChange(event) {
-                    const change = event.detail.checked;
-                    element.classList.toggle("dark-mode", change);
-                }
-            </script>
-
-            <label onchange="relayEvent(event, 'dark-mode',
-                {checked: event.target.checked})">
-                
-                <input type="checkbox" id="darkMode" autocomplete="off"/>
-                <strong>Dark</strong>-mode   
-            </label>
-            
-        </header>
-
-
-
-
-        <!-- <ul style="list-style-type: none;">
-            <zone-item icon-type="potted_plant_generic" zone-path="./zones/zone1/zone1.html">
-                Zone 1
-            </zone-item>
-            <zone-item icon-type="potted_plant_succulent" zone-path="./zones/zone2/zone2.html">
-                Zone 2
-            </zone-item>
-            <zone-item icon-type="potted_plant_generic2" zone-path="./zones/zone3/zone3.html">
-                Zone 3
-            </zone-item>
-            <zone-item icon-type="potted_plant_cactus" zone-path="./zones/zone4/zone4.html">
-                Zone 4
-            </zone-item>
-        </ul> -->
-        
-        <zone-list src="./data/zoneList.json"></zone-list>
-
-        <p>
-             <a href="./alerts.html">Alerts</a>
-
-            <div class="dropFlex">
-                <div class="dropdown">Component Details
-                    <div class="dropdown-content">
-                        <dl>
-                            <dt> <b> Moisture Sensor </b> </dt>
-                            <dd> Capacitive Soil Moisture Sensor v1.2 </dd>
-
-                            <dt> <b> Temperature Sensor </b> </dt>
-                            <dd> DS18B20 digital temperature sensor </dd>
-
-                            <dt> <b> Watering Pump </b> </dt>
-                            <dd> Submersible 3V DC Water Pump, Horizontal Type </dd>
-                        </dl>
+                                <dt><b>Watering Pump</b></dt>
+                                <dd>Submersible 3V DC Water Pump, Horizontal Type</dd>
+                            </dl>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </p>
+            </main>
+        </auth-provider>
+
+        <script>
+            document.body.addEventListener("dark-mode", (event) => {
+                document.body.classList.toggle("dark-mode", event.detail.checked);
+            });
+        </script>
+
     </body>
 </html>
