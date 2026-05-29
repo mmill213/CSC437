@@ -1,19 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
 
-<header>
-    <link rel="stylesheet" href="/styles/page.css" />
+    <link rel="stylesheet" href="../../styles/page.css" />
+    <link rel="stylesheet" href="../../styles/reset.css" />
 
-    <h1> Watering Log </h1>
-</header>
+    <script type="importmap">
+      {
+        "imports": {
+          "@unbndl/html": "https://unpkg.com/@unbndl/html"
+        }
+      }
+    </script>
 
-<body>
-    <dl>
-        <dd> 2:23 PM </dd>
-        <dd> 2:01 PM </dd>
-        <dd> 1:37 PM </dd>
-        <dd> 1:20 PM </dd>
-    </dl> 
+    <script type="module">
+      import { define } from "@unbndl/html";
+      import { HeaderElement } from "../../js/header.js";
+      import { WateringLogElement } from "../../js/wateringLog.js";
 
-</body>
+      define({
+        "site-header": HeaderElement,
+        "watering-log": WateringLogElement
+      });
+    </script>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        document.body.addEventListener("dark-mode", (event) => {
+          document.body.classList.toggle("dark-mode", event.detail.checked);
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <site-header></site-header>
+
+    <main class="log-page">
+      <h2>Zone 2 Watering Log</h2>
+
+      <watering-log zone-id="zone_2" api-src="/api/zones"></watering-log>
+
+      <p class="back-link">
+        <a href="../../index.html">Back to Dashboard</a>
+      </p>
+    </main>
+  </body>
 </html>

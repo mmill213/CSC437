@@ -23,36 +23,26 @@ export class WateringLogElement extends HTMLElement {
     if (!apiSrc || !zoneId) return;
 
     try {
-      const readings = await this.hydrate(apiSrc);
+      const zoneReadingData = await this.hydrate(apiSrc);
 
-      const zoneReadings = readings
-        .filter((reading) => reading.zoneId === zoneId)
-        .sort((a, b) => {
-          const idA = a._id ?? "";
-          const idB = b._id ?? "";
-          return idB.localeCompare(idA);
-        });
+      const readings = getReadingsForZone(zoneReadingData, zoneId);
 
-      const view = WateringLogElement.render(zoneId, zoneReadings);
+      const view = WateringLogElement.render(readings);
       shadow(this).replace(view);
     } catch (error) {
       console.log("Could not load watering log:", error);
 
       shadow(this).replace(html`
         <section class="watering-log">
-          <p>Could not load watering log.</p>
+          <p>Could not load watering log data.</p>
         </section>
       `);
     }
   }
 
-  static render(zoneId, readings) {
-    const zoneName = zoneId.replace("_", " ").replace("zone", "Zone");
-
+  static render(readings) {
     return html`
       <section class="watering-log">
-        <h2>${zoneName} Watering Log</h2>
-
         ${
           readings.length > 0
             ? html`
@@ -67,7 +57,7 @@ export class WateringLogElement extends HTMLElement {
                   </thead>
 
                   <tbody>
-                    ${readings.map(renderLogRow)}
+                    ${readings.map(renderReadingRow)}
                   </tbody>
                 </table>
               `
@@ -81,26 +71,21 @@ export class WateringLogElement extends HTMLElement {
 
   static styles = css`
     :host {
-      display: contents;
+      display: block;
+      grid-column: 1 / -1;
     }
 
     .watering-log {
-      grid-column: 1 / -1;
-      padding: 1rem;
       max-width: 60rem;
       margin: 0 auto;
       color: var(--color-text);
-    }
-
-    h2 {
-      text-align: center;
-      color: var(--color-header);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       background-color: var(--color-background-card, rgba(255, 255, 255, 0.85));
+      color: var(--color-text);
       border-radius: 0.75rem;
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -182,7 +167,22 @@ export class WateringLogElement extends HTMLElement {
   }
 }
 
-function renderLogRow(reading) {
+function getReadingsForZone(zoneReadingData, zoneId) {
+  if (!Array.isArray(zoneReadingData)) {
+    return [];
+  }
+
+  return zoneReadingData
+    .filter((reading) => reading.zoneId === zoneId)
+    .sort((a, b) => {
+      const idA = a._id ?? "";
+      const idB = b._id ?? "";
+
+      return idB.localeCompare(idA);
+    });
+}
+
+function renderReadingRow(reading) {
   const temperature = reading.temperature ?? "N/A";
   const moisture = reading.moisture ?? "N/A";
   const shouldWater = reading.shouldWater ?? "N/A";

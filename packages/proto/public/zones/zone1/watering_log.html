@@ -16,12 +16,21 @@
     </script>
 
     <script type="module">
-      import { WateringLogElement } from "../../js/wateringLog.js";
       import { define } from "@unbndl/html";
       import { HeaderElement } from "../../js/header.js";
+      import { WateringLogElement } from "../../js/wateringLog.js";
 
       define({
+        "site-header": HeaderElement,
         "watering-log": WateringLogElement
+      });
+    </script>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        document.body.addEventListener("dark-mode", (event) => {
+          document.body.classList.toggle("dark-mode", event.detail.checked);
+        });
       });
     </script>
   </head>
@@ -29,10 +38,14 @@
   <body>
     <site-header></site-header>
 
-    <watering-log zone-id="zone_1" api-src="/api/zones"></watering-log>
+    <main class="log-page">
+      <h2>Zone 1 Watering Log</h2>
 
-    <p>
-      <a href="../../index.html">Back to Dashboard</a>
-    </p>
+      <watering-log zone-id="zone_1" api-src="/api/zones"></watering-log>
+
+      <p class="back-link">
+        <a href="../../index.html">Back to Dashboard</a>
+      </p>
+    </main>
   </body>
 </html>
