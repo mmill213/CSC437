@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="../../styles/page.css" />
+    <link rel="stylesheet" href="../../styles/reset.css" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@unbndl/html": "https://unpkg.com/@unbndl/html"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import { WateringLogElement } from "../../js/wateringLog.js";
+      import { define } from "@unbndl/html";
+      import { HeaderElement } from "../../js/header.js";
+
+      define({
+        "watering-log": WateringLogElement
+      });
+    </script>
+  </head>
+
+  <body>
+    <site-header></site-header>
+
+    <watering-log zone-id="zone_1" api-src="/api/zones"></watering-log>
+
+    <p>
+      <a href="../../index.html">Back to Dashboard</a>
+    </p>
+  </body>
+</html>
