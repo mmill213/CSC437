@@ -271,7 +271,7 @@ function getReadingsForZone(zoneReadingData, zoneNumber) {
 
 function getWateringLogPath(zonePath) {
   const parts = zonePath.split("/");
-  parts[parts.length - 1] = "watering-log.html";
+  parts[parts.length - 1] = "watering_log.html";
   return parts.join("/");
 }
 
