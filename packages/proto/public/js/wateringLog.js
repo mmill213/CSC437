@@ -24,7 +24,6 @@ export class WateringLogElement extends HTMLElement {
 
     try {
       const zoneReadingData = await this.hydrate(apiSrc);
-
       const readings = getReadingsForZone(zoneReadingData, zoneId);
 
       const view = WateringLogElement.render(readings);
@@ -46,20 +45,16 @@ export class WateringLogElement extends HTMLElement {
         ${
           readings.length > 0
             ? html`
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Temperature</th>
-                      <th>Moisture</th>
-                      <th>Should Water</th>
-                      <th>Reservoir</th>
-                    </tr>
-                  </thead>
+                <div class="log-table">
+                  <div class="log-row log-header">
+                    <div>Temperature</div>
+                    <div>Moisture</div>
+                    <div>Should Water</div>
+                    <div>Reservoir</div>
+                  </div>
 
-                  <tbody>
-                    ${readings.map(renderReadingRow)}
-                  </tbody>
-                </table>
+                  ${readings.map(renderReadingRow)}
+                </div>
               `
             : html`
                 <p>No watering log data available for this zone.</p>
@@ -73,17 +68,17 @@ export class WateringLogElement extends HTMLElement {
     :host {
       display: block;
       grid-column: 1 / -1;
+      width: 100%;
     }
 
     .watering-log {
-      max-width: 60rem;
+      max-width: 75rem;
       margin: 0 auto;
+      padding: 0 1rem;
       color: var(--color-text);
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .log-table {
       background-color: var(--color-background-card, rgba(255, 255, 255, 0.85));
       color: var(--color-text);
       border-radius: 0.75rem;
@@ -91,67 +86,59 @@ export class WateringLogElement extends HTMLElement {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
-    th,
-    td {
-      padding: 0.75rem;
-      text-align: left;
+    .log-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
       border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     }
 
-    th {
-      font-weight: bold;
-    }
-
-    tr:last-child td {
+    .log-row:last-child {
       border-bottom: none;
     }
 
-    @media screen and (max-width: 30rem) {
-      table,
-      thead,
-      tbody,
-      th,
-      td,
-      tr {
-        display: block;
+    .log-row > div {
+      padding: 0.75rem 1rem;
+      overflow-wrap: break-word;
+    }
+
+    .log-header {
+      font-weight: bold;
+      background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    @media screen and (max-width: 40rem) {
+      .log-row {
+        grid-template-columns: 1fr;
+        padding: 0.75rem 1rem;
       }
 
-      thead {
+      .log-row > div {
+        padding: 0.25rem 0;
+      }
+
+      .log-header {
         display: none;
       }
 
-      tr {
-        margin-bottom: 1rem;
-        padding: 0.75rem;
-        background-color: var(--color-background-card, rgba(255, 255, 255, 0.85));
-        border-radius: 0.75rem;
-      }
-
-      td {
-        border-bottom: none;
-        padding: 0.35rem 0;
-      }
-
-      td::before {
+      .temperature::before {
+        content: "Temperature: ";
         font-weight: bold;
-        display: inline-block;
-        width: 8rem;
       }
 
-      td:nth-child(1)::before {
-        content: "Temp:";
+      .moisture::before {
+        content: "Moisture: ";
+        font-weight: bold;
       }
 
-      td:nth-child(2)::before {
-        content: "Moisture:";
+      .should-water::before {
+        content: "Should Water: ";
+        font-weight: bold;
       }
 
-      td:nth-child(3)::before {
-        content: "Should Water:";
-      }
-
-      td:nth-child(4)::before {
-        content: "Reservoir:";
+      .reservoir::before {
+        content: "Reservoir: ";
+        font-weight: bold;
       }
     }
   `;
@@ -189,12 +176,23 @@ function renderReadingRow(reading) {
   const reservoir = reading.reservoir ?? reading.lastWatered ?? "N/A";
 
   return html`
-    <tr>
-      <td>${temperature}${temperature !== "N/A" ? "°C" : ""}</td>
-      <td>${moisture}</td>
-      <td>${shouldWater}</td>
-      <td>${formatReservoir(reservoir)}</td>
-    </tr>
+    <div class="log-row">
+      <div class="temperature">
+        ${temperature}${temperature !== "N/A" ? "°C" : ""}
+      </div>
+
+      <div class="moisture">
+        ${moisture}
+      </div>
+
+      <div class="should-water">
+        ${shouldWater}
+      </div>
+
+      <div class="reservoir">
+        ${formatReservoir(reservoir)}
+      </div>
+    </div>
   `;
 }
 
