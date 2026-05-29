@@ -260,6 +260,12 @@ function getReadingsForZone(zoneReadingData, zoneNumber) {
 
   return zoneReadingData
     .filter((reading) => reading.zoneId === zoneId)
+    .sort((a, b) => {
+      const idA = a._id ?? "";
+      const idB = b._id ?? "";
+
+      return idB.localeCompare(idA);
+    })
     .slice(0, 3);
 }
 
