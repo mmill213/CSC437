@@ -167,6 +167,8 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
     ? getReadingsForZone(zoneReadingData, zoneNumber)
     : [];
 
+  const alerts = isConnected ? getZoneAlerts(readings) : [];
+
   return html`
     <article class="zone-card">
       <header class="zone-header">
@@ -179,28 +181,28 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
 
       ${
         isConnected
-          ? readings.length > 0
-            ? html`
-                <ul class="zone-reading-list">
-                  ${readings.map(renderReading)}
-                </ul>
-              `
-            : html`
-                <p class="empty-message">No recent readings yet.</p>
-              `
-          : html`
-              <p class="empty-message">Disconnected</p>
-            `
-      }
-
-      ${
-        isConnected
           ? html`
+              ${renderAlerts(alerts)}
+
+              ${
+                readings.length > 0
+                  ? html`
+                      <ul class="zone-reading-list">
+                        ${readings.map(renderReading)}
+                      </ul>
+                    `
+                  : html`
+                      <p class="empty-message">No recent readings yet.</p>
+                    `
+              }
+
               <a class="watering-log-link" href=${getWateringLogPath(zonePath)}>
                 Complete watering log
               </a>
             `
-          : ""
+          : html`
+              <p class="empty-message">Disconnected</p>
+            `
       }
     </article>
   `;
@@ -210,7 +212,7 @@ function renderReading(reading) {
   const temperature = reading.temperature ?? "N/A";
   const moisture = reading.moisture ?? "N/A";
   const shouldWater = reading.shouldWater ?? "N/A";
-  const lastWatered = reading.lastWatered ?? "N/A";
+  const lastWatered = formatLastWatered(reading.lastWatered);
 
   return html`
     <li class="zone-reading">
@@ -228,14 +230,26 @@ function renderReading(reading) {
         <span class="reading-label">Should Water:</span>
         <span>${shouldWater}</span>
       </div>
-
-      <div class="reading-row">
-        <span class="reading-label">Last Watered:</span>
-        <span>${lastWatered}</span>
-      </div>
     </li>
   `;
 }
+
+
+function formatLastWatered(lastWatered) {
+  if (!lastWatered || lastWatered === 0) {
+    return "Not recorded yet";
+  }
+
+  const date = new Date(lastWatered);
+
+  if (Number.isNaN(date.getTime())) {
+    return lastWatered;
+  }
+
+  return date.toLocaleString();
+}
+
+
 
 function getReadingsForZone(zoneReadingData, zoneNumber) {
   const zoneId = `zone_${zoneNumber}`;
@@ -246,11 +260,53 @@ function getReadingsForZone(zoneReadingData, zoneNumber) {
 
   return zoneReadingData
     .filter((reading) => reading.zoneId === zoneId)
-    .slice(0, 5);
+    .slice(0, 3);
 }
 
 function getWateringLogPath(zonePath) {
   const parts = zonePath.split("/");
   parts[parts.length - 1] = "watering-log.html";
   return parts.join("/");
+}
+
+
+function getZoneAlerts(readings) {
+  const alerts = [];
+
+  if (readings.length === 0) {
+    return alerts;
+  }
+
+  const latestReading = readings[0];
+  
+
+  if (latestReading.temperature < 0) {alerts.push("Zone too cold");}
+
+  if (latestReading.reservoir === 0 || latestReading.reservoir === "0") {alerts.push("Reservoir needs to be refilled");}
+
+  if (latestReading.shouldWater === "YES") {alerts.push("Recently Watered");}
+
+  return alerts;
+}
+
+function renderAlerts(alerts) {
+  return html`
+    <section class="zone-alerts">
+      <h3>Alerts</h3>
+
+      ${
+        alerts.length > 0
+          ? html`
+              <ul class="alert-list">
+                ${alerts.map((alert) => html`
+                  <li>${alert}</li>
+                `)}
+              </ul>
+            `
+          : html`
+              <p class="empty-message">No current alerts.</p>
+            `
+      }
+    </section>
+  `;
 }
