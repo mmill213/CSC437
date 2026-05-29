@@ -49,7 +49,7 @@ export class HeaderElement extends HTMLElement {
     const view = html`
         <header>
         <div class="title-group">
-            <h1>Automatic Plant Watering System</h1>
+            <h1>Autonomous Irrigation Control System</h1>
 
             <svg class="icon water_drop">
             <use href=${`/sprite.svg#${iconName}`}></use>
