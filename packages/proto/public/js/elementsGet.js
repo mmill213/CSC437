@@ -212,7 +212,7 @@ function renderReading(reading) {
   const temperature = reading.temperature ?? "N/A";
   const moisture = reading.moisture ?? "N/A";
   const shouldWater = reading.shouldWater ?? "N/A";
-  const lastWatered = formatLastWatered(reading.lastWatered);
+  // const lastWatered = formatLastWatered(reading.lastWatered);
 
   return html`
     <li class="zone-reading">
@@ -235,19 +235,19 @@ function renderReading(reading) {
 }
 
 
-function formatLastWatered(lastWatered) {
-  if (!lastWatered || lastWatered === 0) {
-    return "Not recorded yet";
-  }
+// function formatLastWatered(lastWatered) {
+//   if (!lastWatered || lastWatered === 0) {
+//     return "Not recorded yet";
+//   }
 
-  const date = new Date(lastWatered);
+//   const date = new Date(lastWatered);
 
-  if (Number.isNaN(date.getTime())) {
-    return lastWatered;
-  }
+//   if (Number.isNaN(date.getTime())) {
+//     return lastWatered;
+//   }
 
-  return date.toLocaleString();
-}
+//   return date.toLocaleString();
+// }
 
 
 
@@ -278,13 +278,14 @@ function getZoneAlerts(readings) {
   }
 
   const latestReading = readings[0];
-  
+
+  const reservoirValue = latestReading.reservoir ?? latestReading.lastWatered;
+
+  if (reservoirValue === 0 || reservoirValue === "0") {alerts.push("Reservoir needs to be refilled");}
 
   if (latestReading.temperature < 0) {alerts.push("Zone too cold");}
 
-  if (latestReading.reservoir === 0 || latestReading.reservoir === "0") {alerts.push("Reservoir needs to be refilled");}
-
-  if (latestReading.shouldWater === "YES") {alerts.push("Recently Watered");}
+  if (latestReading.shouldWater === "YES") {alerts.push("Recently watered");}
 
   return alerts;
 }
