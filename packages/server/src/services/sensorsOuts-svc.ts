@@ -11,13 +11,13 @@ const zonesSchema = new Schema<Zones>(
         shouldWater: String,
         reservoir:   String
     },
-    { collection: "zonesSchema" }
+    { collection: "zonesSchema", timestamps: true }
 );
 
 const ZoneModel = model<Zones>("Zones", zonesSchema);
 
 function index(): Promise<Zones[]> {
-    return ZoneModel.find();
+    return ZoneModel.find().sort({ _id: -1 });
 }
 
 function get(zoneId: string): Promise<Zones | undefined> {
