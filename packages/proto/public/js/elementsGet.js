@@ -176,7 +176,7 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
           <use href=${`sprite.svg#${iconName}`} />
         </svg>
 
-        <a href=${zonePath}>${name}</a>
+        <section>${name}</section>
       </header>
 
       ${
