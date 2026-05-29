@@ -1,24 +1,98 @@
 import { css, html, shadow } from "@unbndl/html";
 
 export class HeaderElement extends HTMLElement {
-  view = html`
-    <header>
-      <div class="title-group">
-        <h1>Automatic Plant Watering System</h1>
+  constructor() {
+    super();
 
-        <svg class="icon water_drop">
-          <use href="/sprite.svg#up_arrow_water_drop"></use>
-        </svg>
-      </div>
+    shadow(this).styles(HeaderElement.styles);
 
-      <div class="header-controls">
-        <label>
-          <input type="checkbox" autocomplete="off" id="darkMode" />
-          <strong>Dark</strong>-mode
-        </label>
-      </div>
-    </header>
-  `;
+    this.reservoirLow = false;
+    this.renderHeader();
+
+    this.shadowRoot.addEventListener("change", (event) => {
+      if (event.target.id === "darkMode") {
+        this.toggleDarkMode(event);
+      }
+    });
+  }
+
+  static observedAttributes = ["api-src"];
+
+  connectedCallback() {
+    this.loadReservoirStatus();
+  }
+
+  attributeChangedCallback() {
+    this.loadReservoirStatus();
+  }
+
+  async loadReservoirStatus() {
+    const apiSrc = this.getAttribute("api-src");
+
+    if (!apiSrc) return;
+
+    try {
+      const zoneReadingData = await this.hydrate(apiSrc);
+
+      this.reservoirLow = isAnyReservoirLow(zoneReadingData);
+      this.renderHeader();
+    } catch (error) {
+      console.log("Could not load reservoir status:", error);
+    }
+  }
+
+  renderHeader() {
+    const view = html`
+      <header>
+        <div class="title-group">
+          <h1>Automatic Plant Watering System</h1>
+
+          ${
+            this.reservoirLow
+              ? html`
+                  <svg class="icon water_drop" aria-label="Water drop icon">
+                    <use href="/sprite.svg#exclamation_water_drop"></use>
+                  </svg>
+                `
+              : html`
+                  <svg class="icon water_drop" aria-label="Water drop icon">
+                    <use href="/sprite.svg#up_arrow_water_drop"></use>
+                  </svg>
+                `
+          }
+        </div>
+
+        <div class="header-controls">
+          <label>
+            <input type="checkbox" autocomplete="off" id="darkMode" />
+            <strong>Dark</strong>-mode
+          </label>
+        </div>
+      </header>
+    `;
+
+    shadow(this).replace(view);
+  }
+
+  toggleDarkMode(event) {
+    const customEvent = new CustomEvent("dark-mode", {
+      bubbles: true,
+      composed: true,
+      detail: { checked: event.target.checked }
+    });
+
+    this.dispatchEvent(customEvent);
+  }
+
+  hydrate(src) {
+    return fetch(src).then((response) => {
+      if (response.status !== 200) {
+        throw `HTTP Status ${response.status}`;
+      }
+
+      return response.json();
+    });
+  }
 
   static styles = css`
     :host {
@@ -63,17 +137,25 @@ export class HeaderElement extends HTMLElement {
       white-space: nowrap;
     }
 
-    svg.icon {
+    svg.icon,
+    img.icon {
       display: inline;
       height: 2em;
       width: 2em;
       vertical-align: top;
-      fill: var(--color-icon-plant);
       flex-shrink: 0;
+    }
+
+    svg.icon {
+      fill: var(--color-icon-plant);
     }
 
     svg.icon.water_drop {
       fill: var(--water-color);
+    }
+
+    img.alert-icon {
+      object-fit: contain;
     }
 
     @media screen and (max-width: 50rem) {
@@ -101,28 +183,31 @@ export class HeaderElement extends HTMLElement {
       }
     }
   `;
+}
 
-  constructor() {
-    super();
-
-    shadow(this)
-      .styles(HeaderElement.styles)
-      .replace(this.view);
-
-    this.shadowRoot.addEventListener("change", (event) => {
-      if (event.target.id === "darkMode") {
-        this.toggleDarkMode(event);
-      }
-    });
+function isAnyReservoirLow(zoneReadingData) {
+  if (!Array.isArray(zoneReadingData)) {
+    return false;
   }
 
-  toggleDarkMode(event) {
-    const customEvent = new CustomEvent("dark-mode", {
-      bubbles: true,
-      composed: true,
-      detail: { checked: event.target.checked }
-    });
+  const connectedZones = ["zone_1", "zone_2"];
 
-    this.dispatchEvent(customEvent);
-  }
+  return connectedZones.some((zoneId) => {
+    const latestReading = zoneReadingData
+      .filter((reading) => reading.zoneId === zoneId)
+      .sort((a, b) => {
+        const idA = a._id ?? "";
+        const idB = b._id ?? "";
+
+        return idB.localeCompare(idA);
+      })[0];
+
+    if (!latestReading) {
+      return false;
+    }
+
+    const reservoirValue = latestReading.reservoir ?? latestReading.lastWatered;
+
+    return reservoirValue === 0 || reservoirValue === "0";
+  });
 }
