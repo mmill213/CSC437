@@ -11,12 +11,14 @@ export class HomeViewElement extends HTMLElement {
           :host {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
+            grid-column: 1 / -1;
             width: 100%;
-            gap: 1rem;
+            gap: 0;
           }
 
           zone-list {
             display: contents;
+            grid-column: 1 / -1;
           }
 
           .component-section {
