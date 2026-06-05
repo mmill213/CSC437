@@ -9,11 +9,11 @@ export class HomeViewElement extends HTMLElement {
         const style = document.createElement("style");
         style.textContent = `
           :host {
+            --page-grid: 8;
             display: grid;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(var(--page-grid), 1fr);
             grid-column: 1 / -1;
             width: 100%;
-            gap: 0;
           }
 
           zone-list {
@@ -56,9 +56,13 @@ export class HomeViewElement extends HTMLElement {
           }
 
           @media screen and (max-width: 50rem) {
-            .component-grid {
-              grid-template-columns: 1fr;
-            }
+            :host { --page-grid: 4; }
+            .component-grid { grid-template-columns: repeat(2, 1fr); }
+          }
+
+          @media screen and (max-width: 30rem) {
+            :host { --page-grid: 2; }
+            .component-grid { grid-template-columns: 1fr; }
           }
         `;
 

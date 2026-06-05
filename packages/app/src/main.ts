@@ -19,7 +19,7 @@ const routes: any[] = [
     },
     {
         path: "/app",
-        view: html`<span></span>`  //empty placeholder
+        view: html`<home-view></home-view>`  //uses home view for component list
     },
     {
         path: "/",
