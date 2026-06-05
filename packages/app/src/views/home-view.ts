@@ -18,9 +18,10 @@ export class HomeViewElement extends HTMLElement {
           }
 
           .component-section {
-            grid-column: 1 / -1;
+            width: 100%;
             padding: 1rem;
             text-align: center;
+            box-sizing: border-box;
           }
 
           .component-section h2 {
