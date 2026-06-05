@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/public/styles/tokens.css" />
+        <link rel="stylesheet" href="/public/styles/reset.css" />
+        <link rel="stylesheet" href="/public/styles/page.css" />
+        <script type="module" src="/src/main.ts"></script>
+    </head>
+    <body>
+        <history-provider>
+            <site-header api-src="/api/zones"></site-header>
+            <router-switch></router-switch>
+
+            <section class="component-section">
+                <h2>Components Used</h2>
+                <div class="component-grid">
+                    <article class="component-card">
+                        <h3>Moisture Sensor</h3>
+                        <p>Capacitive Soil Moisture Sensor v1.2</p>
+                    </article>
+                    <article class="component-card">
+                        <h3>Temperature Sensor</h3>
+                        <p>DS18B20 digital temperature sensor</p>
+                    </article>
+                    <article class="component-card">
+                        <h3>Watering Pump</h3>
+                        <p>Submersible 3V DC Water Pump, Horizontal Type</p>
+                    </article>
+                </div>
+            </section>
+        </history-provider>
+
+        <script>
+            document.body.addEventListener("dark-mode", (event) => {
+                document.body.classList.toggle("dark-mode", event.detail.checked);
+            });
+        </script>
+    </body>
+</html>

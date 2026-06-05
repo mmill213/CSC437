@@ -7,10 +7,10 @@ const zonesSchema = new Schema({
     temperature: Number,
     shouldWater: String,
     reservoir: String
-}, { collection: "zonesSchema" });
+}, { collection: "zonesSchema", timestamps: true });
 const ZoneModel = model("Zones", zonesSchema);
 function index() {
-    return ZoneModel.find();
+    return ZoneModel.find().sort({ _id: -1 });
 }
 function get(zoneId) {
     return ZoneModel.find({ zoneId })

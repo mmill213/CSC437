@@ -54,6 +54,14 @@ app.use("/app", (req: Request, res: Response) => {
         .catch(() => res.status(404).send("Not found"));
 });
 
+//app stuff
+app.use("/app", (req: Request, res: Response) => {
+    const indexHtml = path.resolve(staticDir, "index.html");
+    fs.readFile(indexHtml, { encoding: "utf8" })
+        .then((html) => res.send(html))
+        .catch(() => res.status(404).send("Not found"));
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="../../styles/page.css" />
+    <link rel="stylesheet" href="../../styles/reset.css" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "@unbndl/html": "https://unpkg.com/@unbndl/html"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import { define } from "@unbndl/html";
+      import { HeaderElement } from "../../js/header.js";
+      import { WateringLogElement } from "../../js/wateringLog.js";
+
+      define({
+        "site-header": HeaderElement,
+        "watering-log": WateringLogElement
+      });
+    </script>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        document.body.addEventListener("dark-mode", (event) => {
+          document.body.classList.toggle("dark-mode", event.detail.checked);
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <site-header api-src="/api/zones"></site-header>
+
+    <main class="log-page">
+      <h2>Zone 2 Watering Log</h2>
+
+      <watering-log zone-id="zone_2" api-src="/api/zones"></watering-log>
+
+      <p class="back-link">
+        <a href="../../index.html">Back to Dashboard</a>
+      </p>
+    </main>
+  </body>
+</html>
