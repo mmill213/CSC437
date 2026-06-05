@@ -21,7 +21,9 @@
 
 body.dark-mode {
   --color-background-page: #1d2c19;
-  --color-text: rgb(240, 240, 223);
+  --color-header: var(--color-header-inverted);
+    --color-background-card: #2a3a2a;
+    --color-text: rgb(240, 240, 223);
   --color-background-card: black;
   --color-accent: var(--color-accent-inverted);
   --color-text-control: rgb(51 51 51);

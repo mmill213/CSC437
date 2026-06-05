@@ -2,11 +2,15 @@ import { css, html, shadow } from "@unbndl/html";
 
 export class HomeViewElement extends HTMLElement {
     connectedCallback() {
-        // Render into light DOM instead of shadow DOM
-        const template = HomeViewElement.template;
         shadow(this)
             .styles(HomeViewElement.styles)
-            .replace(template);
+            .replace(HomeViewElement.template);
+    }
+
+    disconnectedCallback() { //force rerender because of return to main page issues
+        while (this.shadowRoot?.firstChild) {
+            this.shadowRoot.removeChild(this.shadowRoot.firstChild);
+        }
     }
 
     static template = html`
