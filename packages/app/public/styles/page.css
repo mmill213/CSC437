@@ -174,7 +174,7 @@ img, svg {
     max-width: 100%;
 }
 
-@media screen and (max-width: 70rem) {
+@media screen and (max-width: 150rem) {
     body {
         --page-grid: 4;
     }

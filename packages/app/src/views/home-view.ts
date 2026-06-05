@@ -51,7 +51,7 @@ export class HomeViewElement extends HTMLElement {
             margin-bottom: 0.5rem;
           }
 
-          @media screen and (max-width: 70rem) {
+          @media screen and (max-width: 150rem) {
             :host {
               grid-template-columns: repeat(2, 1fr);
             }
