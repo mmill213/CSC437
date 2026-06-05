@@ -8,9 +8,15 @@ export class HomeViewElement extends HTMLElement {
     createContent() {
         const style = document.createElement("style");
         style.textContent = `
-          zone-list {
-            display: block;
+          :host {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
             width: 100%;
+            gap: 1rem;
+          }
+
+          zone-list {
+            display: contents;
           }
 
           .component-section {
