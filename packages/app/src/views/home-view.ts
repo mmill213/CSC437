@@ -1,11 +1,12 @@
 import { css, html, shadow } from "@unbndl/html";
 
 export class HomeViewElement extends HTMLElement {
-    constructor() {
-        super();
+    connectedCallback() {
+        // Render into light DOM instead of shadow DOM
+        const template = HomeViewElement.template;
         shadow(this)
             .styles(HomeViewElement.styles)
-            .replace(HomeViewElement.template);
+            .replace(template);
     }
 
     static template = html`
