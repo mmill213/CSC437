@@ -137,11 +137,6 @@ body {
 }
 
 
-home-view {
-    display: contents;
-}
-
-
 store-provider {
     display: contents;
 }
@@ -152,6 +147,14 @@ history-provider {
 }
 
 router-switch {
+    display: grid;
+    grid-template-columns: repeat(var(--page-grid), 1fr);
+    grid-column: 1 / -1;
+    width: 100%;
+    gap: 1rem;
+}
+
+home-view {
     display: contents;
 }
 
