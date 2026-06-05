@@ -38,10 +38,14 @@ export class WateringLogElement extends HTMLElement {
       `);
     }
   }
+  
 
   static render(readings) {
     return html`
       <section class="watering-log">
+        <p class="back-link">
+          <a href="/app">← Back to Dashboard</a>
+        </p>
         ${
           readings.length > 0
             ? html`
@@ -60,6 +64,9 @@ export class WateringLogElement extends HTMLElement {
                 <p>No watering log data available for this zone.</p>
               `
         }
+        <p class="back-link">
+          <a href="/app">← Back to Dashboard</a>
+        </p>
       </section>
     `;
   }

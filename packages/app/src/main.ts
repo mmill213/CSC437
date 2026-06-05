@@ -18,10 +18,28 @@ const routes: any[] = [
     },
     {
         path: "/app",
-        view: html`<zone-list
-            src="/data/zoneList.json"
-            api-src="/api/zones">
-        </zone-list>`
+        view: html`
+            <zone-list
+                src="/data/zoneList.json"
+                api-src="/api/zones">
+            </zone-list>
+            <section class="component-section">
+                <h2>Components Used</h2>
+                <div class="component-grid">
+                    <article class="component-card">
+                        <h3>Moisture Sensor</h3>
+                        <p>Capacitive Soil Moisture Sensor v1.2</p>
+                    </article>
+                    <article class="component-card">
+                        <h3>Temperature Sensor</h3>
+                        <p>DS18B20 digital temperature sensor</p>
+                    </article>
+                    <article class="component-card">
+                        <h3>Watering Pump</h3>
+                        <p>Submersible 3V DC Water Pump, Horizontal Type</p>
+                    </article>
+                </div>
+            </section>`
     },
     {
         path: "/",
