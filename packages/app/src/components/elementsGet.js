@@ -277,9 +277,9 @@ function getZoneAlerts(readings) {
 
   const latestReading = readings[0];
 
-  const reservoirValue = latestReading.reservoir ?? latestReading.lastWatered;
+  const reservoirValue = latestReading.reservoir;
 
-  if (reservoirValue === 0 || reservoirValue === "0") {alerts.push("Reservoir needs to be refilled");}
+  if (reservoirValue === 0 || reservoirValue === "0") {alerts.push("Refill reservoir");}
 
   if (latestReading.temperature < 0) {alerts.push("Zone too cold");}
 
