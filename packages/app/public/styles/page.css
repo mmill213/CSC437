@@ -159,20 +159,6 @@ zone-list {
     display: contents;
 }
 
-@media screen and (max-width: 50rem) {
-    body {
-        --page-grid: 4;
-
-        >header>h1 {
-            font-size: var(--font-size-medium);
-        }
-    }
-
-    .component-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
 * {
     box-sizing: border-box;
 }
@@ -188,18 +174,43 @@ img, svg {
     max-width: 100%;
 }
 
-/* Stack nav items on mobile */
-@media screen and (max-width: 30rem) {
+@media screen and (max-width: 50rem) {
     body {
-        --page-grid: 2;
-
-        >header>h1 {
-            font-size: var(--font-size-med-small);
-        }
+        --page-grid: 4;
     }
 
-    zone-item {
-        grid-column: 1 / -1;
+    body > header > h1,
+    body > history-provider > store-provider > site-header {
+        font-size: var(--font-size-medium);
+    }
+
+    router-switch {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .component-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Stack nav items on mobile */
+@media screen and (max-width: 30rem) {
+
+    body {
+        --page-grid: 2;
+    }
+
+    body > header > h1,
+    body > history-provider > store-provider > site-header {
+        font-size: var(--font-size-med-small);
+    }
+
+    router-switch {
+        grid-template-columns: 1fr;
+    }
+
+    .component-grid {
+        grid-template-columns: 1fr;
     }
 
 }
