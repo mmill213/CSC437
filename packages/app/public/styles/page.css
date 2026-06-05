@@ -137,6 +137,10 @@ body {
 }
 
 
+home-view {
+    display: contents;
+}
+
 
 store-provider {
     display: contents;
