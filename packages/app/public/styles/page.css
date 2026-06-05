@@ -146,13 +146,7 @@ history-provider {
     display: contents;
 }
 
-router-switch {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-column: 1 / -1;
-    width: 100%;
-    gap: 0;
-}
+
 
 home-view {
     display: contents;
