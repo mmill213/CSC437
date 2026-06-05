@@ -44,7 +44,7 @@ export class WateringLogElement extends HTMLElement {
     return html`
       <section class="watering-log">
         <p class="back-link">
-          <a href="/app">← Back to Dashboard</a>
+          <a href="/app">Return to Dashboard</a>
         </p>
         ${
           readings.length > 0
@@ -65,7 +65,7 @@ export class WateringLogElement extends HTMLElement {
               `
         }
         <p class="back-link">
-          <a href="/app">← Back to Dashboard</a>
+          <a href="/app">Return to Dashboard</a>
         </p>
       </section>
     `;
@@ -76,6 +76,17 @@ export class WateringLogElement extends HTMLElement {
       display: block;
       grid-column: 1 / -1;
       width: 100%;
+    }
+
+    .back-link {
+        text-align: center;
+        margin-top: 1rem;
+        grid-column: 1 / -1;
+    }
+
+    .back-link a {
+        color: var(--color-accent);
+        font-weight: bold;
     }
 
     .watering-log {
