@@ -12,7 +12,7 @@ h1 {
 
 body {
     display: grid;
-
+    --page-grid: 8;
     grid-template-columns: repeat(var(--page-grid), 1fr);
 
 
@@ -185,7 +185,10 @@ img, svg {
     }
 
     router-switch {
-        grid-template-columns: repeat(2, 1fr);
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(var(--page-grid), 1fr);
+        width: 100%;
     }
 
     .component-grid {
@@ -205,9 +208,6 @@ img, svg {
         font-size: var(--font-size-med-small);
     }
 
-    router-switch {
-        grid-template-columns: 1fr;
-    }
 
     .component-grid {
         grid-template-columns: 1fr;
