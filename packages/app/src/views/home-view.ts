@@ -1,16 +1,14 @@
 import { css, html, shadow } from "@unbndl/html";
 
 export class HomeViewElement extends HTMLElement {
-    connectedCallback() {
+    connectedCallback() {//rerender content
+        this.render();
+    }
+
+    render() {
         shadow(this)
             .styles(HomeViewElement.styles)
             .replace(HomeViewElement.template);
-    }
-
-    disconnectedCallback() { //force rerender because of return to main page issues
-        while (this.shadowRoot?.firstChild) {
-            this.shadowRoot.removeChild(this.shadowRoot.firstChild);
-        }
     }
 
     static template = html`
@@ -51,7 +49,7 @@ export class HomeViewElement extends HTMLElement {
 
         .component-section h2 {
             margin-bottom: 1rem;
-            color: var(--color-header);
+            color: var(--color-secondary-header);
         }
 
         .component-grid {
