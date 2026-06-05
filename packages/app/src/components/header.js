@@ -150,9 +150,11 @@ export class HeaderElement extends HTMLElement {
 
     svg.icon.water_drop {
       fill: var(--water-color);
+      height: 3em;
+      width: 3em;
     }
 
-    @media screen and (max-width: 50rem) {
+    @media screen and (max-width: 280rem) {
       header {
         font-size: var(--font-size-medium);
       }
@@ -175,38 +177,29 @@ export class HeaderElement extends HTMLElement {
         flex-wrap: wrap;
         margin-left: 0;
       }
+      
+      svg.icon.water_drop {
+        height: 4em;
+        width: 4em;
+      }
     }
   `;
 }
 
 function isAnyReservoirLow(zoneReadingData) {
-  if (!Array.isArray(zoneReadingData)) {
-    console.log("Header: zone data is not an array.", zoneReadingData);
-    return false;
-  }
+    if (!Array.isArray(zoneReadingData)) return false;
 
-  const connectedZones = ["zone_1", "zone_2"];
+    const connectedZones = ["zone_1", "zone_2"];
 
-  return connectedZones.some((zoneId) => {
-    const latestReading = zoneReadingData
-      .filter((reading) => reading.zoneId === zoneId)
-      .sort((a, b) => {
-        const idA = a._id ?? "";
-        const idB = b._id ?? "";
+    return connectedZones.some((zoneId) => {
+        const latestReading = zoneReadingData
+            .filter((reading) => reading.zoneId === zoneId)
+            .sort((a, b) => (b._id ?? "").localeCompare(a._id ?? ""))[0];
 
-        return idB.localeCompare(idA);
-      })[0];
+        if (!latestReading) return false;
 
-    console.log("Header latest reading for", zoneId, latestReading);
+        const reservoirValue = latestReading.reservoir;
 
-    if (!latestReading) {
-      return false;
-    }
-
-    const reservoirValue = latestReading.reservoir ?? latestReading.lastWatered;
-
-    console.log("Header reservoir value for", zoneId, reservoirValue);
-
-    return reservoirValue === 0 || reservoirValue === "0";
-  });
+        return reservoirValue === "LOW" || reservoirValue === 0 || reservoirValue === "0";
+    });
 }

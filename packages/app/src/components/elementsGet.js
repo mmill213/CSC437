@@ -60,8 +60,8 @@ export class ZoneElement extends HTMLElement {
 
     @media screen and (max-width: 30rem) {
       svg.icon {
-        height: 3em;
-        width: 3em;
+        height: 5em;
+        width: 5em;
       }
     }
 
