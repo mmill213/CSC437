@@ -1,3 +1,4 @@
+// packages/app/vite.config.js
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
@@ -8,18 +9,14 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        // add any other HTML files that require Vite to scan:
-        login: resolve(__dirname, 'login.html'),
-        newuser: resolve(__dirname, 'new-user.html')
-      },
-    },
+        main: resolve(__dirname, 'index.html')
+      }
+    }
   },
   server: {
     proxy: {
       "/api": "http://localhost:3000",
-      "/auth": "http://localhost:3000",
-      "/images": "http://localhost:3000",
+      "/auth": "http://localhost:3000"
     }
   }
 })
