@@ -12,7 +12,6 @@ h1 {
 
 body {
     display: grid;
-    --page-grid: 8;
 
     grid-template-columns: repeat(var(--page-grid), 1fr);
 
