@@ -7,6 +7,7 @@ import { WateringLogElement } from "./components/wateringLog.js";
 import { Model, init } from "./model.ts";
 import { Msg } from "./messages.ts";
 import update, { Cmd } from "./update.ts";
+import { HomeViewElement } from "./views/home-view.js";
 
 const routes: any[] = [
     {
@@ -39,5 +40,6 @@ define({
     },
     "site-header":  HeaderElement,
     "zone-list":    ZoneElement,
-    "watering-log": WateringLogElement
+    "watering-log": WateringLogElement,
+    "home-view": HomeViewElement
 });
