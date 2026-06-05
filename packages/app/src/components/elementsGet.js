@@ -61,7 +61,7 @@ export class ZoneElement extends HTMLElement {
     .zone-dashboard {
       grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      repeat(auto-fit, minmax(200px, 1fr));
       gap: 1rem;
       padding: 1rem;
       width: 100%;

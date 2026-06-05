@@ -52,11 +52,18 @@ export class HomeViewElement extends HTMLElement {
           }
 
           @media screen and (max-width: 50rem) {
-            .component-grid { grid-template-columns: repeat(2, 1fr); }
+            :host {
+              grid-template-columns: repeat(2, 1fr);
+            }
+            .component-grid {
+              grid-template-columns: 1fr;
+            }
           }
 
           @media screen and (max-width: 30rem) {
-            .component-grid { grid-template-columns: 1fr; }
+            :host {
+              grid-template-columns: 1fr;
+            }
           }
         `;
 
