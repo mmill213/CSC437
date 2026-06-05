@@ -135,17 +135,7 @@ export class ZoneElement extends HTMLElement {
       fill: var(--color-icon-plant);
     }
 
-    @media screen and (max-width: 50rem) {
-      .zone-dashboard {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media screen and (max-width: 30rem) {
-      .zone-dashboard {
-        grid-template-columns: 1fr;
-      }
-    }
+   
   `;
 
   hydrate(src) {

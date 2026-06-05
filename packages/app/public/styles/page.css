@@ -174,7 +174,7 @@ img, svg {
     max-width: 100%;
 }
 
-@media screen and (max-width: 50rem) {
+@media screen and (max-width: 70rem) {
     body {
         --page-grid: 4;
     }
@@ -185,9 +185,8 @@ img, svg {
     }
 
     router-switch {
-        display: grid;
+        display: block;
         grid-column: 1 / -1;
-        grid-template-columns: repeat(var(--page-grid), 1fr);
         width: 100%;
     }
 

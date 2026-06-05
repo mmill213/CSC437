@@ -13,8 +13,8 @@ export class HomeViewElement extends HTMLElement {
           }
 
           zone-list {
-            display: contents;
-            grid-column: 1 / -1;
+            display: block;
+            width: 100%;
           }
 
           .component-section {
@@ -51,7 +51,7 @@ export class HomeViewElement extends HTMLElement {
             margin-bottom: 0.5rem;
           }
 
-          @media screen and (max-width: 50rem) {
+          @media screen and (max-width: 70rem) {
             :host {
               grid-template-columns: repeat(2, 1fr);
             }
