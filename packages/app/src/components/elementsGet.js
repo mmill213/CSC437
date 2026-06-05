@@ -59,12 +59,11 @@ export class ZoneElement extends HTMLElement {
     }
 
     .zone-dashboard {
-      grid-column: 1 / -1;
+      width: 100%;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
       padding: 1rem;
-      width: 100%;
       box-sizing: border-box;
     }
 
