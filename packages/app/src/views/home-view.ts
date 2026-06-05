@@ -9,11 +9,7 @@ export class HomeViewElement extends HTMLElement {
         const style = document.createElement("style");
         style.textContent = `
           :host {
-            --page-grid: 8;
-            display: grid;
-            grid-template-columns: repeat(var(--page-grid), 1fr);
-            grid-column: 1 / -1;
-            width: 100%;
+            display: contents;
           }
 
           zone-list {
