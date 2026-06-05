@@ -6,6 +6,11 @@
   "author": "",
   "type": "module",
   "main": "src/index.js",
+  "exports": {
+    "./models": {
+      "import": "./src/models/index.ts"
+    }
+  },
   "scripts": {
     "dev": "nodemon",
     "build": "npx tsc",

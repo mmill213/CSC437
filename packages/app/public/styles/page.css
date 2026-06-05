@@ -137,6 +137,12 @@ body {
 }
 
 
+
+store-provider {
+    display: contents;
+}
+
+
 history-provider {
     display: contents;
 }
