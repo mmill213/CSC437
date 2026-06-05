@@ -30,9 +30,8 @@ export class HomeViewElement extends HTMLElement {
 
           .component-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
-            max-width: 30rem;
             margin: 0 auto;
             padding: 0 1rem;
             width: 100%;
