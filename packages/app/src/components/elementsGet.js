@@ -1,5 +1,7 @@
 import { html, shadow, css } from "@unbndl/html";
 
+const zoneNames = new Map();
+
 export class ZoneElement extends HTMLElement {
 constructor() {
     super();
@@ -34,8 +36,7 @@ constructor() {
 
               if (!name) return;
 
-              // Saves the new zone name from form to localStorage so it persists across navigation
-              localStorage.setItem(`zone-name-${zoneId}`, name);
+              zoneNames.set(zoneId, name);
 
               card.querySelector(".zone-name-display").textContent = name;
               card.querySelector(".zone-name-display").style.display = "";
@@ -223,8 +224,12 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
   const { iconName, zonePath } = zoneItem;
   const zoneNumber = index + 1;
   const zoneId = `zone_${zoneNumber}`;
+  const isConnected = zoneNumber === 1 || zoneNumber === 2;
+  const readings = isConnected ? getReadingsForZone(zoneReadingData, zoneNumber) : [];
+  const alerts = isConnected ? getZoneAlerts(readings) : [];
 
-  const name = localStorage.getItem(`zone-name-${zoneId}`) || zoneItem.name;
+  //Use edited name if set, otherwise fall back to JSON name
+  const name = zoneNames.get(zoneId) || zoneItem.name;
 
   return html`
     <article class="zone-card" data-zone-id=${zoneId}>
