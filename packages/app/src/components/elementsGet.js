@@ -73,7 +73,7 @@ constructor() {
     try {
       const [zoneListData, zoneReadingData] = await Promise.all([
         this.hydrate(zoneListSrc),
-        this.hydrate(apiSrc)
+        this.hydrate(apiSrc + "?t=" + Date.now()) //bursts cache to save form inputs
       ]);
 
       const view = ZoneElement.render(zoneListData, zoneReadingData);
@@ -250,7 +250,7 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
         </svg>
 
         <span class="zone-name-display">${name}</span>
-        <button class="edit-btn" type="button" title="Edit name">&#xf040</button>
+        <button class="edit-btn" type="button" title="Edit name">&#x270f</button>
 
         <form class="zone-edit-form" style="display:none">
           <input type="text" name="name" value=${name} />
