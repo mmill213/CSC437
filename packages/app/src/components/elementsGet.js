@@ -229,12 +229,19 @@ constructor() {
 }
 
 function renderZoneSection(zoneItem, zoneReadingData, index) {
-  const { name, iconName, zonePath } = zoneItem;
+  function renderZoneSection(zoneItem, zoneReadingData, index) {
+  const { iconName, zonePath } = zoneItem;  // drop `name` from here
   const zoneNumber = index + 1;
   const zoneId = `zone_${zoneNumber}`;
   const isConnected = zoneNumber === 1 || zoneNumber === 2;
   const readings = isConnected ? getReadingsForZone(zoneReadingData, zoneNumber) : [];
   const alerts = isConnected ? getZoneAlerts(readings) : [];
+
+  //Gets name from the API/MongoDB
+  const apiZone = Array.isArray(zoneReadingData)
+    ? zoneReadingData.find(z => z.zoneId === zoneId)
+    : null;
+  const name = apiZone?.name || zoneItem.name;
 
   return html`
     <article class="zone-card" data-zone-id=${zoneId}>
@@ -244,7 +251,7 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
         </svg>
 
         <span class="zone-name-display">${name}</span>
-        <button class="edit-btn" type="button" title="Edit name">✏️</button>
+        <button class="edit-btn" type="button" title="Edit name">&#xf040</button>
 
         <form class="zone-edit-form" style="display:none">
           <input type="text" name="name" value=${name} />
