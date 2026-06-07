@@ -26,30 +26,21 @@ constructor() {
                 }
             },
             submit: (ev) => {
-                ev.preventDefault();
-                const form = ev.target;
-                const card = form.closest("article");
-                const zoneId = card.dataset.zoneId;
-                const name = form.elements.namedItem("name").value.trim();
+              ev.preventDefault();
+              const form = ev.target;
+              const card = form.closest("article");
+              const zoneId = card.dataset.zoneId;
+              const name = form.elements.namedItem("name").value.trim();
 
-                if (!name) return;
+              if (!name) return;
 
-                fetch(`/api/zones/${zoneId}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name })
-                })
-                .then(res => {
-                    if (res.status === 200) return res.json();
-                    throw new Error(`Failed: ${res.status}`);
-                })
-                .then(() => {
-                    card.querySelector(".zone-name-display").textContent = name;
-                    card.querySelector(".zone-name-display").style.display = "";
-                    card.querySelector(".edit-btn").style.display = "";
-                    form.style.display = "none";
-                })
-                .catch(err => console.error("Save failed:", err));
+              // Saves the new zone name from form to localStorage so it persists across navigation
+              localStorage.setItem(`zone-name-${zoneId}`, name);
+
+              card.querySelector(".zone-name-display").textContent = name;
+              card.querySelector(".zone-name-display").style.display = "";
+              card.querySelector(".edit-btn").style.display = "";
+              form.style.display = "none";
             }
         });
 }
@@ -229,18 +220,11 @@ constructor() {
 }
 
 function renderZoneSection(zoneItem, zoneReadingData, index) {
-  const { iconName, zonePath } = zoneItem;  // drop `name` from here
+  const { iconName, zonePath } = zoneItem;
   const zoneNumber = index + 1;
   const zoneId = `zone_${zoneNumber}`;
-  const isConnected = zoneNumber === 1 || zoneNumber === 2;
-  const readings = isConnected ? getReadingsForZone(zoneReadingData, zoneNumber) : [];
-  const alerts = isConnected ? getZoneAlerts(readings) : [];
 
-  //Gets name from the API/MongoDB
-  const apiZone = Array.isArray(zoneReadingData)
-    ? zoneReadingData.find(z => z.zoneId === zoneId)
-    : null;
-  const name = apiZone?.name || zoneItem.name;
+  const name = localStorage.getItem(`zone-name-${zoneId}`) || zoneItem.name;
 
   return html`
     <article class="zone-card" data-zone-id=${zoneId}>
