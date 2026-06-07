@@ -229,7 +229,6 @@ constructor() {
 }
 
 function renderZoneSection(zoneItem, zoneReadingData, index) {
-  function renderZoneSection(zoneItem, zoneReadingData, index) {
   const { iconName, zonePath } = zoneItem;  // drop `name` from here
   const zoneNumber = index + 1;
   const zoneId = `zone_${zoneNumber}`;
