@@ -239,7 +239,7 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
         </svg>
 
         <span class="zone-name-display">${name}</span>
-        <button class="edit-btn" type="button" title="Edit name">&#x270f</button>
+        <button class="edit-btn" type="button" title="Edit name">✏️</button> 
 
         <form class="zone-edit-form" style="display:none">
           <input type="text" name="name" value=${name} />
