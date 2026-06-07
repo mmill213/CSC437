@@ -1,10 +1,9 @@
 import { html, shadow, css } from "@unbndl/html";
 
 export class ZoneElement extends HTMLElement {
-  // Add to ZoneElement class — inside constructor, after shadow(this).styles(...)
 constructor() {
     super();
-    shadow(this) 
+    shadow(this)
         .styles(ZoneElement.styles)
         .listen({
             click: (ev) => {
@@ -13,15 +12,17 @@ constructor() {
 
                 if (btn.classList.contains("edit-btn")) {
                     const card = btn.closest("article");
-                    card.querySelector(".zone-name-display").hidden = true;
-                    card.querySelector(".zone-edit-form").hidden = false;
+                    card.querySelector(".zone-name-display").style.display = "none";
+                    card.querySelector(".edit-btn").style.display = "none";
+                    card.querySelector(".zone-edit-form").style.display = "flex";
                     card.querySelector(".zone-edit-form input").focus();
                 }
 
                 if (btn.classList.contains("cancel-btn")) {
                     const card = btn.closest("article");
-                    card.querySelector(".zone-name-display").hidden = false;
-                    card.querySelector(".zone-edit-form").hidden = true;
+                    card.querySelector(".zone-name-display").style.display = "";
+                    card.querySelector(".edit-btn").style.display = "";
+                    card.querySelector(".zone-edit-form").style.display = "none";
                 }
             },
             submit: (ev) => {
@@ -33,14 +34,22 @@ constructor() {
 
                 if (!name) return;
 
-                this.dispatch(["zone/save", { zoneId, name }, {
-                    onSuccess: () => {
-                        card.querySelector(".zone-name-display").textContent = name;
-                        card.querySelector(".zone-name-display").hidden = false;
-                        form.hidden = true;
-                    },
-                    onFailure: (err) => console.error("Save failed:", err)
-                }]);
+                fetch(`/api/zones/${zoneId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name })
+                })
+                .then(res => {
+                    if (res.status === 200) return res.json();
+                    throw new Error(`Failed: ${res.status}`);
+                })
+                .then(() => {
+                    card.querySelector(".zone-name-display").textContent = name;
+                    card.querySelector(".zone-name-display").style.display = "";
+                    card.querySelector(".edit-btn").style.display = "";
+                    form.style.display = "none";
+                })
+                .catch(err => console.error("Save failed:", err));
             }
         });
 }
@@ -235,9 +244,9 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
         </svg>
 
         <span class="zone-name-display">${name}</span>
-        <button class="edit-btn" type="button" title="Edit name">&#x270f</button>
+        <button class="edit-btn" type="button" title="Edit name">✏️</button>
 
-        <form class="zone-edit-form" hidden>
+        <form class="zone-edit-form" style="display:none">
           <input type="text" name="name" value=${name} />
           <button type="submit">Save</button>
           <button type="button" class="cancel-btn">Cancel</button>
