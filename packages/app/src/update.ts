@@ -38,6 +38,11 @@ export default function update(
             return { ...model, selectedZone: zone };
         }
 
+        case "zone/save": {
+            const { zoneId, name } = payload as { zoneId: string; name: string };
+            return [model, saveZoneName(zoneId, name, callbacks)];
+        }
+
         default:
             throw new Error(`Unhandled message "${type}"`);
     }
@@ -64,5 +69,32 @@ function fetchZone(zoneId: string) {
         .then((json: unknown) => {
             if (json) return ["zone/load", { zone: json as any }];
             throw "No JSON in response";
+        });
+}
+
+function saveZoneName(
+    zoneId: string,
+    name: string,
+    callbacks?: { onSuccess?: () => void; onFailure?: (err: Error) => void }
+): Promise<Cmd> {
+    return fetch(`/api/zones/${zoneId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name })
+    })
+        .then((res) => {
+            if (res.status === 200) return res.json();
+            throw new Error(`${res.status} saving zone ${zoneId}`);
+        })
+        .then((json: unknown) => {
+            if (json) {
+                callbacks?.onSuccess?.();
+                return fetchZones() as Promise<Cmd>;
+            }
+            throw new Error("No JSON in response");
+        })
+        .catch((err) => {
+            callbacks?.onFailure?.(err instanceof Error ? err : new Error(String(err)));
+            throw err;
         });
 }

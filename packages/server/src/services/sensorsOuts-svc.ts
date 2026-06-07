@@ -34,7 +34,7 @@ function create(json: Zones): Promise<Zones> {
 function update(id: string, zones: Zones): Promise<Zones | undefined> {
     return ZoneModel.findOneAndUpdate(
         { zoneId: id } as any,
-        zones,
+        { $set: zones },
         { new: true }
     )
     .then((updated) => {

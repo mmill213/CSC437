@@ -1,10 +1,49 @@
 import { html, shadow, css } from "@unbndl/html";
 
 export class ZoneElement extends HTMLElement {
-  constructor() {
+  // Add to ZoneElement class — inside constructor, after shadow(this).styles(...)
+constructor() {
     super();
-    shadow(this).styles(ZoneElement.styles);
-  }
+    shadow(this) 
+        .styles(ZoneElement.styles)
+        .listen({
+            click: (ev) => {
+                const btn = ev.target.closest("button");
+                if (!btn) return;
+
+                if (btn.classList.contains("edit-btn")) {
+                    const card = btn.closest("article");
+                    card.querySelector(".zone-name-display").hidden = true;
+                    card.querySelector(".zone-edit-form").hidden = false;
+                    card.querySelector(".zone-edit-form input").focus();
+                }
+
+                if (btn.classList.contains("cancel-btn")) {
+                    const card = btn.closest("article");
+                    card.querySelector(".zone-name-display").hidden = false;
+                    card.querySelector(".zone-edit-form").hidden = true;
+                }
+            },
+            submit: (ev) => {
+                ev.preventDefault();
+                const form = ev.target;
+                const card = form.closest("article");
+                const zoneId = card.dataset.zoneId;
+                const name = form.elements.namedItem("name").value.trim();
+
+                if (!name) return;
+
+                this.dispatch(["zone/save", { zoneId, name }, {
+                    onSuccess: () => {
+                        card.querySelector(".zone-name-display").textContent = name;
+                        card.querySelector(".zone-name-display").hidden = false;
+                        form.hidden = true;
+                    },
+                    onFailure: (err) => console.error("Save failed:", err)
+                }]);
+            }
+        });
+}
 
   static observedAttributes = ["src", "api-src"];
 
@@ -142,6 +181,30 @@ export class ZoneElement extends HTMLElement {
       fill: var(--color-icon-plant);
     }
 
+    .zone-edit-form {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-left: 0.25rem;
+    }
+
+    .zone-edit-form input {
+      font-size: var(--font-size-med-small);
+      border: 1px solid var(--color-accent);
+      border-radius: 0.25rem;
+      padding: 0.1rem 0.3rem;
+      width: 8rem;
+    }
+
+    .edit-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.85em;
+      padding: 0;
+      line-height: 1;
+    }
+
    
   `;
 
@@ -158,50 +221,39 @@ export class ZoneElement extends HTMLElement {
 
 function renderZoneSection(zoneItem, zoneReadingData, index) {
   const { name, iconName, zonePath } = zoneItem;
-
   const zoneNumber = index + 1;
+  const zoneId = `zone_${zoneNumber}`;
   const isConnected = zoneNumber === 1 || zoneNumber === 2;
-
-  const readings = isConnected
-    ? getReadingsForZone(zoneReadingData, zoneNumber)
-    : [];
-
+  const readings = isConnected ? getReadingsForZone(zoneReadingData, zoneNumber) : [];
   const alerts = isConnected ? getZoneAlerts(readings) : [];
 
   return html`
-    <article class="zone-card">
+    <article class="zone-card" data-zone-id=${zoneId}>
       <header class="zone-header">
         <svg class="icon">
           <use href=${`sprite.svg#${iconName}`} />
         </svg>
 
-        <section>${name}</section>
+        <span class="zone-name-display">${name}</span>
+        <button class="edit-btn" type="button" title="Edit name">&#x270f</button>
+
+        <form class="zone-edit-form" hidden>
+          <input type="text" name="name" value=${name} />
+          <button type="submit">Save</button>
+          <button type="button" class="cancel-btn">Cancel</button>
+        </form>
       </header>
 
-      ${
-        isConnected
-          ? html`
-              ${renderAlerts(alerts)}
-
-              ${
-                readings.length > 0
-                  ? html`
-                      <ul class="zone-reading-list">
-                        ${readings.map(renderReading)}
-                      </ul>
-                    `
-                  : html`
-                      <p class="empty-message">No recent readings yet.</p>
-                    `
-              }
-
-              <a class="watering-log-link" href=${getWateringLogPath(zonePath)}>
-                Complete watering log
-              </a>
-            `
-          : html`
-              <p class="empty-message">Disconnected</p>
-            `
+      ${isConnected ? html`
+          ${renderAlerts(alerts)}
+          ${readings.length > 0
+            ? html`<ul class="zone-reading-list">${readings.map(renderReading)}</ul>`
+            : html`<p class="empty-message">No recent readings yet.</p>`
+          }
+          <a class="watering-log-link" href=${getWateringLogPath(zonePath)}>
+            Complete watering log
+          </a>
+        ` : html`<p class="empty-message">Disconnected</p>`
       }
     </article>
   `;
