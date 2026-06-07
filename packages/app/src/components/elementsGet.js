@@ -1,6 +1,6 @@
 import { html, shadow, css } from "@unbndl/html";
 
-const zoneNames = new Map();
+
 
 export class ZoneElement extends HTMLElement {
 constructor() {
@@ -36,7 +36,7 @@ constructor() {
 
               if (!name) return;
 
-              zoneNames.set(zoneId, name);
+              localStorage.setItem(`zone-name-${zoneId}`, name);
 
               card.querySelector(".zone-name-display").textContent = name;
               card.querySelector(".zone-name-display").style.display = "";
@@ -229,7 +229,7 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
   const alerts = isConnected ? getZoneAlerts(readings) : [];
 
   //Use edited name if set, otherwise fall back to JSON name
-  const name = zoneNames.get(zoneId) || zoneItem.name;
+  const name = localStorage.getItem(`zone-name-${zoneId}`) || zoneItem.name;
 
   return html`
     <article class="zone-card" data-zone-id=${zoneId}>
@@ -239,7 +239,7 @@ function renderZoneSection(zoneItem, zoneReadingData, index) {
         </svg>
 
         <span class="zone-name-display">${name}</span>
-        <button class="edit-btn" type="button" title="Edit name">&#x270f</button>
+        <button class="edit-btn" type="button" title="Edit name">&#x1F589</button>
 
         <form class="zone-edit-form" style="display:none">
           <input type="text" name="name" value=${name} />
